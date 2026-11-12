@@ -17,15 +17,16 @@ int main() {
     // Add values and read them by index.
     sequence.append(10);
     sequence.append(20);
+    sequence.append(30);
     assert(!sequence.empty());
-    assert(sequence.size() == 2);
-    assert(sequence.get(0) == 10);
+    assert(sequence.size() == 3);
+    assert(sequence.get(0) == 10);  
     assert(sequence.get(1) == 20);
-
+    assert(sequence.get(2) == 30);
     // Accessing an invalid index must throw an exception.
     bool threw = false;
     try {
-        sequence.get(2);
+        sequence.get(3);
     } catch (const std::out_of_range&) {
         threw = true;
     }
@@ -45,7 +46,7 @@ int main() {
     // Moving transfers the nodes and leaves the source empty.
     IntSequence moved(std::move(sequence));
     assert(sequence.empty());
-    assert(moved.size() == 2);
+    assert(moved.size() == 3);
     assert(moved.get(0) == 10);
 
     IntSequence moveAssigned;
