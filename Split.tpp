@@ -19,14 +19,19 @@ void split(const Sequence<Key, Info>& source,
     res1.clear();
     res2.clear();
 
-    unsigned int sourceIndex =
-        static_cast<unsigned int>(start) < input.size()
-            ? static_cast<unsigned int>(start)
-            : input.size();
+    unsigned int sourceIndex = static_cast<unsigned int>(start);
+    if (sourceIndex >= input.size()) {
+        sourceIndex = input.size();
+    }
     bool writingToFirst = true;
 
     while (sourceIndex < input.size()) {
-        const int chunkLength = writingToFirst ? length1 : length2;
+        int chunkLength;
+        if (writingToFirst) {
+            chunkLength = length1;
+        } else {
+            chunkLength = length2;
+        }
 
         for (int i = 0; i < chunkLength && sourceIndex < input.size(); ++i) {
             if (writingToFirst) {
