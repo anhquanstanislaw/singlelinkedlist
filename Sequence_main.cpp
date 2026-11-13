@@ -49,6 +49,19 @@ int main() {
     assert(!pairs.insert_after(35, "not inserted", 99));
     assert(pairs.size() == 4);
 
+    IntSequence removed;
+    removed.push_back(1, "first");
+    removed.push_back(2, "middle");
+    removed.push_back(3, "last");
+    assert(removed.remove_at_key(2));
+    assert(removed.size() == 2);
+    assert(removed.get(1) == 1);
+    assert(removed.get(3) == 3);
+    assert(removed.remove_at_key(1));
+    assert(removed.remove_at_key(3));
+    assert(removed.empty());
+    assert(!removed.remove_at_key(99));
+
     IntSequence appended;
     appended.push_back(40, "appended");
     assert(appended.get(40) == 40);

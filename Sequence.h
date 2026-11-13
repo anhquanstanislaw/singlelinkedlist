@@ -57,6 +57,8 @@ public:
 
     bool insert_after(const Key& key, const Info& info, const Key& afterKey);
 
+    bool remove_at_key(const Key& key);
+
     bool pop_front();
 
     bool pop_back();

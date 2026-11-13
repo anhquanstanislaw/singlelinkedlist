@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 
 template<typename Key, typename Info>
 // Creates an empty sequence.
@@ -134,6 +134,31 @@ bool Sequence<Key, Info>::insert_after(const Key& key,
     node->next = target->next;
     target->next = node;
     ++count;
+    return true;
+}
+
+template<typename Key, typename Info>
+// Removes the first node with the requested key.
+bool Sequence<Key, Info>::remove_at_key(const Key& key) {
+    Node* previous = nullptr;
+    Node* current = head;
+
+    while (current != nullptr && current->key != key) {
+        previous = current;
+        current = current->next;
+    }
+    if (current == nullptr) {
+        return false;
+    }
+
+    if (previous == nullptr) {
+        head = current->next;
+    } else {
+        previous->next = current->next;
+    }
+
+    delete current;
+    --count;
     return true;
 }
 
