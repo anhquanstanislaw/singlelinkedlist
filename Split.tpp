@@ -30,9 +30,9 @@ void split(const Sequence<Key, Info>& source,
 
         for (int i = 0; i < chunkLength && sourceIndex < input.size(); ++i) {
             if (writingToFirst) {
-                res1.append(input.get(sourceIndex));
+                res1.push_back(input.get(sourceIndex), input.getInfo(sourceIndex));
             } else {
-                res2.append(input.get(sourceIndex));
+                res2.push_back(input.get(sourceIndex), input.getInfo(sourceIndex));
             }
             ++sourceIndex;
         }

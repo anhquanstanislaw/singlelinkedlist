@@ -25,17 +25,43 @@ private:
 
 public:
     Sequence();
+
     Sequence(const Sequence& other);
+
     Sequence(Sequence&& other) noexcept;
+
     ~Sequence();
+
     Sequence& operator=(const Sequence& other);
+
     Sequence& operator=(Sequence&& other) noexcept;
+
     bool operator==(const Sequence& other) const;
-    void append(const Key& value);
+
+    bool operator!=(const Sequence& other) const;
+
+    void append(const Key& key, const Info& info);
+
+    void push_front(const Key& key, const Info& info);
+
+    void push_back(const Key& key, const Info& info);
+
+    bool pop_front();
+
+    bool pop_back();
+
+    void print() const;
+
     Key get(unsigned int index) const;
+
+    Info getInfo(unsigned int index) const;
+
     bool empty() const;
+
     void clear();
+
     unsigned int size() const;
+
     void swap(Sequence& other) noexcept;
 };
 
