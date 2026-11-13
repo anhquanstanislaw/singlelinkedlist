@@ -15,16 +15,16 @@ int main() {
     assert(sequence.empty());
     assert(sequence.size() == 0);
 
-    // Add values and read them by index.
+    // Add values and read them by key.
     sequence.push_back(10, "");
     sequence.push_back(20, "");
     sequence.push_back(30, "");
     assert(!sequence.empty());
     assert(sequence.size() == 3);
-    assert(sequence.get(0) == 10);  
-    assert(sequence.get(1) == 20);
-    assert(sequence.get(2) == 30);
-    // Accessing an invalid index must throw an exception.
+    assert(sequence.get(10) == 10);
+    assert(sequence.get(20) == 20);
+    assert(sequence.get(30) == 30);
+    // Accessing a missing key must throw an exception.
     bool threw = false;
     try {
         sequence.get(3);
@@ -40,14 +40,19 @@ int main() {
     pairs.push_back(30, "back again");
     assert(!pairs.empty());
     assert(pairs.size() == 3);
-    assert(pairs.get(0) == 10);
-    assert(pairs.get(1) == 20);
-    assert(pairs.get(2) == 30);
+    assert(pairs.get(10) == 10);
+    assert(pairs.get(20) == 20);
+    assert(pairs.get(30) == 30);
+    assert(pairs.insert_after(25, "inserted", 20));
+    assert(pairs.getInfo(25) == "inserted");
+    assert(pairs.size() == 4);
+    assert(!pairs.insert_after(35, "not inserted", 99));
+    assert(pairs.size() == 4);
 
     IntSequence appended;
     appended.push_back(40, "appended");
-    assert(appended.get(0) == 40);
-    assert(appended.getInfo(0) == "appended");
+    assert(appended.get(40) == 40);
+    assert(appended.getInfo(40) == "appended");
 
     IntSequence sameValues;
     sameValues.push_back(40, "appended");
@@ -67,11 +72,11 @@ int main() {
     popped.push_back(3, "last");
     assert(popped.pop_front());
     assert(popped.size() == 2);
-    assert(popped.get(0) == 2);
-    assert(popped.get(1) == 3);
+    assert(popped.get(2) == 2);
+    assert(popped.get(3) == 3);
     assert(popped.pop_back());
     assert(popped.size() == 1);
-    assert(popped.get(0) == 2);
+    assert(popped.get(2) == 2);
     assert(popped.pop_back());
     assert(popped.empty());
     assert(!popped.pop_back());
@@ -101,7 +106,7 @@ int main() {
     IntSequence moved(std::move(sequence));
     assert(sequence.empty());
     assert(moved.size() == 3);
-    assert(moved.get(0) == 10);
+    assert(moved.get(10) == 10);
 
     IntSequence moveAssigned;
     moveAssigned.push_back(99, "");
@@ -117,8 +122,8 @@ int main() {
     second.push_back(3, "");
     second.push_back(4, "");
     first.swap(second);
-    assert(first.get(0) == 3);
-    assert(second.get(0) == 1);
+    assert(first.get(3) == 3);
+    assert(second.get(1) == 1);
 
     // Clearing removes every element.
     first.clear();
@@ -151,8 +156,8 @@ int main() {
 
     assert(res1 == expectedRes1);
     assert(res2 == expectedRes2);
-    assert(res1.getInfo(0) == "3");
-    assert(res2.getInfo(0) == "5");
+    assert(res1.getInfo(3) == "3");
+    assert(res2.getInfo(5) == "5");
 
     // Split clears the output sequences when no source values remain.
     split(source, res1, 2, res2, 3, 10);

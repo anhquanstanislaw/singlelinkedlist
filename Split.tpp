@@ -34,10 +34,12 @@ void split(const Sequence<Key, Info>& source,
         }
 
         for (int i = 0; i < chunkLength && sourceIndex < input.size(); ++i) {
+            typename Sequence<Key, Info>::Node* node =
+                input.nodeAtIndex(sourceIndex);
             if (writingToFirst) {
-                res1.push_back(input.get(sourceIndex), input.getInfo(sourceIndex));
+                res1.push_back(node->key, node->info);
             } else {
-                res2.push_back(input.get(sourceIndex), input.getInfo(sourceIndex));
+                res2.push_back(node->key, node->info);
             }
             ++sourceIndex;
         }

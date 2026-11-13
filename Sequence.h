@@ -21,7 +21,16 @@ private:
 
     unsigned int count;
     Node* head;
-    Node* nodeAt(unsigned int index) const;
+    Node* nodeAtKey(const Key& key) const;
+    Node* nodeAtIndex(unsigned int index) const;
+
+    template<typename K, typename I>
+    friend void split(const Sequence<K, I>& source,
+                      Sequence<K, I>& res1,
+                      int length1,
+                      Sequence<K, I>& res2,
+                      int length2,
+                      int start);
 
 public:
     Sequence();
@@ -46,15 +55,17 @@ public:
 
     void push_back(const Key& key, const Info& info);
 
+    bool insert_after(const Key& key, const Info& info, const Key& afterKey);
+
     bool pop_front();
 
     bool pop_back();
 
     void print() const;
 
-    Key get(unsigned int index) const;
+    Key get(const Key& key) const;
 
-    Info getInfo(unsigned int index) const;
+    Info getInfo(const Key& key) const;
 
     bool empty() const;
 

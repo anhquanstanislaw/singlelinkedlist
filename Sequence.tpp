@@ -121,6 +121,23 @@ void Sequence<Key, Info>::push_back(const Key& key, const Info& info) {
 }
 
 template<typename Key, typename Info>
+// Inserts a key-info pair after the first node with the requested key.
+bool Sequence<Key, Info>::insert_after(const Key& key,
+                                       const Info& info,
+                                       const Key& afterKey) {
+    Node* target = nodeAtKey(afterKey);
+    if (target == nullptr) {
+        return false;
+    }
+
+    Node* node = new Node(key, info);
+    node->next = target->next;
+    target->next = node;
+    ++count;
+    return true;
+}
+
+template<typename Key, typename Info>
 // Removes the first node, returning false when the sequence is empty.
 bool Sequence<Key, Info>::pop_front() {
     if (head == nullptr) {
@@ -168,21 +185,21 @@ void Sequence<Key, Info>::print() const {
 }
 
 template<typename Key, typename Info>
-// Returns the value at an index or throws if the index is invalid.
-Key Sequence<Key, Info>::get(unsigned int index) const {
-    Node* node = nodeAt(index);
+// Returns the key identified by the requested key or throws if it is missing.
+Key Sequence<Key, Info>::get(const Key& key) const {
+    Node* node = nodeAtKey(key);
     if (node == nullptr) {
-        throw std::out_of_range("Index out of range");
+        throw std::out_of_range("Key not found");
     }
     return node->key;
 }
 
 template<typename Key, typename Info>
-// Returns the info at an index or throws if the index is invalid.
-Info Sequence<Key, Info>::getInfo(unsigned int index) const {
-    Node* node = nodeAt(index);
+// Returns the info identified by the requested key or throws if it is missing.
+Info Sequence<Key, Info>::getInfo(const Key& key) const {
+    Node* node = nodeAtKey(key);
     if (node == nullptr) {
-        throw std::out_of_range("Index out of range");
+        throw std::out_of_range("Key not found");
     }
     return node->info;
 }
@@ -220,9 +237,21 @@ void Sequence<Key, Info>::swap(Sequence& other) noexcept {
 }
 
 template<typename Key, typename Info>
-// Finds the node at an index, or returns nullptr if the index is invalid.
+// Finds the first node with the requested key, or returns nullptr if it is missing.
 typename Sequence<Key, Info>::Node*
-Sequence<Key, Info>::nodeAt(unsigned int index) const {
+Sequence<Key, Info>::nodeAtKey(const Key& key) const {
+    for (Node* current = head; current != nullptr; current = current->next) {
+        if (current->key == key) {
+            return current;
+        }
+    }
+    return nullptr;
+}
+
+template<typename Key, typename Info>
+// Finds the node at a positional offset for internal sequence operations.
+typename Sequence<Key, Info>::Node*
+Sequence<Key, Info>::nodeAtIndex(unsigned int index) const {
     if (index >= count) {
         return nullptr;
     }
